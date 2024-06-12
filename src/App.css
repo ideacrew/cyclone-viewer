@@ -133,3 +133,53 @@ tr.vuln-main-row {
 td {
   padding: 10px;
 }
+
+.vuln-component-kind-summary {
+  display: inline-block;
+  margin-right: 2em;
+}
+
+.vuln-component-count-summary {
+  display: block;
+}
+
+.vuln-severity-box {
+  display: inline-block;
+  margin: 1em;
+  padding: 1em;
+  color: white;
+  width: 5em;
+}
+
+.vuln-severity-box span {
+  display: block;
+  text-align: center;
+}
+
+.vuln-severity-box span.count {
+  font-size: 200%;
+}
+
+.vuln-severity-box-critical {
+  background-color: #d9534f;
+}
+
+.vuln-severity-box-high {
+  background-color: #ff7200;
+}
+
+.vuln-severity-box-medium {
+  background-color: #ffba00;
+}
+
+.vuln-severity-box-low {
+  background-color: #5bc0de;
+}
+
+.vuln-severity-box-info {
+  background-color: #5cb85c;
+}
+
+.vuln-severity-box-unknown {
+  background-color: #777;
+}

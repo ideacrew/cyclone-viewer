@@ -1,8 +1,9 @@
-import { Component, ReactNode } from "react";
+import { Component, ReactNode, Fragment } from "react";
 import { CycloneDataLoader } from "../data/cyclone_data_loader";
 import { VulnerabilityComponent } from "./Vulnerability.component"
 import * as CycloneModel from "../cyclonedx/models";
 import * as cdx from "@cyclonedx/cyclonedx-library";
+import { VulnerabilitiesSummaryComponent } from "./VulnerabilitiesSummary.component";
 
 type PropsType = {
   dataLoader: CycloneDataLoader;
@@ -44,6 +45,8 @@ export class VulnerabilitiesListComponent extends Component<PropsType, any, any>
 
   public render(): ReactNode {
     return (
+        <Fragment>
+        <VulnerabilitiesSummaryComponent dataLoader={this.props.dataLoader}/>
         <div>
           <table className="vuln-list-table">
             <thead>
@@ -61,6 +64,7 @@ export class VulnerabilitiesListComponent extends Component<PropsType, any, any>
             </tbody>
           </table>
         </div>
+        </Fragment>
     );
   }
 }
