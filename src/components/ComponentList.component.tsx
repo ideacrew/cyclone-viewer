@@ -32,6 +32,7 @@ export class ComponentListComponent extends Component<PropsType, any, any> {
               <tr>
                 <th>Name</th>
                 <th>Version</th>
+                <th>Kind</th>
                 <th>Details</th>
               </tr>
             </thead>
