@@ -1,0 +1,135 @@
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.topMenuItems li {
+  display: inline;
+  padding-right: 2em;
+}
+
+.topMenuItems li.unselected {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.contentArea {
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+.shown-section {
+  display: block;
+}
+
+.hidden-section {
+  display: none;
+}
+
+.component-list-table {
+  border-collapse: collapse;
+}
+
+.component-list-table th {
+  border-collapse: collapse;
+}
+
+.component-main-row td {
+  border-collapse: collapse;
+}
+
+.component-detail-row td {
+  border-collapse: collapse;
+}
+
+.table-detail-toggle {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.component-list-table th {
+  text-align: left;
+}
+
+tr.component-main-row {
+  border: 1px solid black;
+}
+
+tr.component-detail-row {
+  border: 1px solid black;
+}
+
+.component-detail-hidden {
+  display: none;
+}
+
+.component-detail-shown {
+  display: table-row;
+}
+
+.vuln-detail-hidden {
+  display: none;
+  border: 1px solid black;
+}
+
+.vuln-detail-shown {
+  display: table-row;
+  border: 1px solid black;
+}
+
+.vuln-row-details-content {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 1em;
+}
+
+.vuln-list-table {
+  border-collapse: collapse;
+}
+
+tr.vuln-main-row {
+  border: 1px solid black;
+}
+
+.vuln-main-row td {
+  border-collapse: collapse;
+}
+
+.vuln-row-details-detail {
+  white-space: pre-wrap;
+}
+
+td {
+  padding: 10px;
+}
