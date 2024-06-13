@@ -30,6 +30,10 @@ export class VulnerabilitiesListComponent extends Component<PropsType, any, any>
     });
   }
 
+  shouldComponentUpdate(_nextProps : PropsType, _nextState : any) {
+    return false;
+  };
+
   renderVulnerabilities() : ReactNode | string {
     const vulns = this.props.dataLoader.bom?.vulnerabilities;
     if (vulns) {

@@ -1,11 +1,10 @@
 import { Component, ReactNode, Fragment } from "react";
-import { CycloneDataLoader } from "../data/cyclone_data_loader";
 import * as CycloneModel from "../cyclonedx/models";
 import * as cdx from "@cyclonedx/cyclonedx-library";
 
 type PropsType = {
-  dataLoader: CycloneDataLoader;
   component: CycloneModel.Component;
+  searchValue: string;
 };
 
 type StateType = {
@@ -80,7 +79,32 @@ export class ComponentComponent extends Component<PropsType, StateType, any> {
   }
 
   descriptionValues() : ReactNode | string {
+    if (this.props.component.description) {
+      return <pre>{this.props.component.description}</pre>;
+    }
     return "";
+  }
+
+  matchClass() {
+    let searchVisibility = "";
+    if (this.props.searchValue !== "") {
+      let didNotMatch = true;
+      if (this.props.component.name.toLowerCase().indexOf(this.props.searchValue) > -1) {
+        didNotMatch = false;
+      }
+      if (this.getComponentKind().toLowerCase().indexOf(this.props.searchValue) > -1) {
+        didNotMatch = false;
+      }
+      if (this.props.component.description) {
+        if (this.props.component.description.toLowerCase().indexOf(this.props.searchValue) > -1) {
+          didNotMatch = false;
+        }
+      }
+      if (didNotMatch) {
+        searchVisibility = " component-filtered";
+      }
+    }
+    return searchVisibility;
   }
 
   componentDetailClassName() {
@@ -118,38 +142,27 @@ export class ComponentComponent extends Component<PropsType, StateType, any> {
   }
 
   getComponentKind() {
-    if (this.props.component.purl) {
-      const purl = this.props.component.purl;
-      if (purl.startsWith("pkg:gem/")) {
-        return "Gem";
-      } else if (purl.startsWith("pkg:npm/")) {
-        return "NPM";
-      } else if (purl.startsWith("pkg:deb/")) {
-        return "Debian";
-      } else if (purl.startsWith("pkg:apk/")) {
-        return "Alpine";
-      }
-    }
-    return "other";
+    return CycloneModel.getComponentKind(this.props.component);
   }
 
   public render(): ReactNode {
+    const matchClass = this.matchClass();
     return (
       <Fragment>
-        <tr key={this.props.component["bom-ref"] + "-mainrow"} className="component-main-row">
+        <tr key={this.props.component["bom-ref"] + "-mainrow"} className={"component-main-row" + matchClass}>
           <td>{this.props.component.name}</td>
           <td>{this.props.component.version}</td>
           <td>{this.getComponentKind()}</td>
           {this.detailsLink()}
         </tr>
-        <tr key={this.props.component["bom-ref"] + "-detailrow"} className={this.componentDetailClassName()}>
+        <tr key={this.props.component["bom-ref"] + "-detailrow"} className={this.componentDetailClassName() + matchClass}>
           <td colSpan={2}>
             <dl>
               {this.purlValues()}
               {this.cpeValues()}
               {this.vcsValues()}
-              {this.descriptionValues()}
             </dl>
+            {this.descriptionValues()}
           </td>
         </tr>
       </Fragment>

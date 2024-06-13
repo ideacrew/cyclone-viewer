@@ -52,7 +52,6 @@ export type Advisory = {
   url: string;
 };
 
-
 export type Tool = {
   name: string;
 }
@@ -86,6 +85,7 @@ export type Component = {
   purl?: string;
   cpe?: string;
   "bom-ref": string;
+  description?: string;
   externalReferences: Array<ExternalRef>;
 }
 
@@ -97,4 +97,20 @@ export type Bom = {
   metadata: Metadata;
   components: Array<Component>;
   vulnerabilities?: Array<Vulnerability>;
+}
+
+export function getComponentKind(comp: Component) {
+  if (comp.purl) {
+    const purl = comp.purl;
+    if (purl.startsWith("pkg:gem/")) {
+      return "Gem";
+    } else if (purl.startsWith("pkg:npm/")) {
+      return "NPM";
+    } else if (purl.startsWith("pkg:deb/")) {
+      return "Debian";
+    } else if (purl.startsWith("pkg:apk/")) {
+      return "Alpine";
+    }
+  }
+  return "other";
 }

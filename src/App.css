@@ -183,3 +183,7 @@ td {
 .vuln-severity-box-unknown {
   background-color: #777;
 }
+
+.component-filtered {
+  display: none;
+}

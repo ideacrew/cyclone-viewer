@@ -1,46 +1,74 @@
-import { Component, ReactNode } from "react";
-import { CycloneDataLoader } from "../data/cyclone_data_loader";
+import { Component, ReactNode, Fragment } from "react";
 import { ComponentComponent } from "./Component.component";
+import { ComponentSearchValues } from "../data/cyclone_data_loader";
+import * as CycloneModel from "../cyclonedx/models";
+import { ComponentSearchComponent } from "./ComponentSearch.component";
 
 type PropsType = {
-  dataLoader: CycloneDataLoader;
-};
+  components: CycloneModel.Component[];
+  componentSearchValues: ComponentSearchValues;
+}
 
-export class ComponentListComponent extends Component<PropsType, any, any> {
-  private dataLoader : CycloneDataLoader;
+type StateType = {
+  searchString: string;
+  searchValue: string;
+}
 
+export class ComponentListComponent extends Component<PropsType, StateType, any> {
   constructor(props: PropsType) {
     super(props);
-    this.dataLoader = props.dataLoader;
+    this.state = {
+      searchString: "",
+      searchValue: ""
+    };
   }
 
   componentNodes() : Array<ReactNode> | string {
-    if (this.dataLoader.bom?.components) {
-      let componentDisplay = this.dataLoader.bom?.components.map((c) => {
-        return <ComponentComponent dataLoader={this.dataLoader} component={c} key={c["bom-ref"] + "-component"}></ComponentComponent>;
+    if (this.props.components.length > 1) {
+      let componentDisplay = this.props.components.map((c) => {
+        return <ComponentComponent component={c} key={c["bom-ref"] + "-component"} searchValue={this.state.searchValue}></ComponentComponent>;
       })
       return componentDisplay;
     }
     return "";
   }
 
+  public updateSearchString(v: string) {
+    this.setState((s) => {
+      if (v.length < 2) {
+        return {
+          ...s,
+          searchString: v,
+          searchValue: ""
+        };
+      } else {
+        return {
+          ...s,
+          searchString: v,
+          searchValue: v
+        };
+      }
+    });
+  }
+
   public render(): ReactNode {
     return (
-        <div>
-          <table className="component-list-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Version</th>
-                <th>Kind</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              { this.componentNodes() }
-            </tbody>
-          </table>
-        </div>
+      <Fragment>
+      <ComponentSearchComponent searchString={this.state.searchString} searchParent={this}/>
+      <table className="component-list-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Version</th>
+            <th>Kind</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          { this.componentNodes() }
+        </tbody>
+      </table>
+      </Fragment>
     );
   }
 }
