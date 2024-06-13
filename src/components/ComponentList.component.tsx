@@ -1,12 +1,10 @@
 import { Component, ReactNode, Fragment } from "react";
 import { ComponentComponent } from "./Component.component";
-import { ComponentSearchValues } from "../data/cyclone_data_loader";
 import * as CycloneModel from "../cyclonedx/models";
 import { ComponentSearchComponent } from "./ComponentSearch.component";
 
 type PropsType = {
   components: CycloneModel.Component[];
-  componentSearchValues: ComponentSearchValues;
 }
 
 type StateType = {

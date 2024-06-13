@@ -31,7 +31,7 @@ export class ViewSelectionComponent extends Component<PropsType, any, any> {
   render() : ReactNode {
       return <Fragment>
       <div className={this.sectionClass(ViewSelection.COMPONENTS)}>
-      <ComponentListComponent components={this.components()} componentSearchValues={this.props.dataLoader.componentSearchValues}/>
+      <ComponentListComponent components={this.components()} />
       </div>
       <div className={this.sectionClass(ViewSelection.VULNERABLITIES)}>
       <VulnerabilitiesListComponent dataLoader={this.props.dataLoader}/>
