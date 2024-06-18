@@ -41,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/ellipsize": "^0.1.3",
+    "ellipsize": "^0.5.1"
   }
 }

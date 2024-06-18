@@ -89,14 +89,20 @@ export class ComponentComponent extends Component<PropsType, StateType, any> {
     let searchVisibility = "";
     if (this.props.searchValue !== "") {
       let didNotMatch = true;
-      if (this.props.component.name.toLowerCase().indexOf(this.props.searchValue) > -1) {
+      const searchString = this.props.searchValue.toLowerCase();
+      if (this.props.component.name.toLowerCase().indexOf(searchString) > -1) {
         didNotMatch = false;
       }
-      if (this.getComponentKind().toLowerCase().indexOf(this.props.searchValue) > -1) {
+      if (this.props.component.version) {
+        if (this.props.component.version.toLowerCase().indexOf(searchString) > -1) {
+          didNotMatch = false;
+        }
+      }
+      if (this.getComponentKind().toLowerCase().indexOf(searchString) > -1) {
         didNotMatch = false;
       }
       if (this.props.component.description) {
-        if (this.props.component.description.toLowerCase().indexOf(this.props.searchValue) > -1) {
+        if (this.props.component.description.toLowerCase().indexOf(searchString) > -1) {
           didNotMatch = false;
         }
       }
