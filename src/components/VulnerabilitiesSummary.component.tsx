@@ -14,7 +14,7 @@ export class VulnerabilitiesSummaryComponent extends Component<PropsType, any, a
       const vulns = this.props.dataLoader.bom?.vulnerabilities;
       if (vulns.length > 0) {
         const matching = vulns.filter((v) => {
-          return this.formatSeverity(v) === sev;
+          return CycloneModel.formatSeverity(v) === sev;
         });
         return matching.length;
       }
@@ -27,7 +27,7 @@ export class VulnerabilitiesSummaryComponent extends Component<PropsType, any, a
       const vulns = this.props.dataLoader.bom?.vulnerabilities;
       if (vulns.length > 0) {
         const matching = vulns.filter((v) => {
-          return this.formatSeverity(v) === sev;
+          return CycloneModel.formatSeverity(v) === sev;
         });
         return matching.reduce((acc, m) => {
           let value = 0;
@@ -41,22 +41,9 @@ export class VulnerabilitiesSummaryComponent extends Component<PropsType, any, a
     return 0;
   }
 
-  formatSeverity(vuln: CycloneModel.Vulnerability) {
-    if (vuln.ratings) {
-      const ratings = vuln.ratings;
-      if (ratings.length > 0) {
-        let sortedRatings = ratings.sort((a, b) => {
-          return CycloneModel.severitySort(a.severity) - CycloneModel.severitySort(b.severity);
-        });
-        return sortedRatings[0].severity;
-      }
-    }
-    return cdx.Enums.Vulnerability.Severity.Unknown;
-  }
-
   sortVulns(vulns: Array<CycloneModel.Vulnerability>) {
     return vulns.sort((a, b) => {
-      return CycloneModel.severitySort(this.formatSeverity(b)) - CycloneModel.severitySort(this.formatSeverity(a));
+      return CycloneModel.severitySort(CycloneModel.formatSeverity(b)) - CycloneModel.severitySort(CycloneModel.formatSeverity(a));
     });
   }
 
@@ -92,6 +79,7 @@ export class VulnerabilitiesSummaryComponent extends Component<PropsType, any, a
         {this.kindSeverityBox(cdx.Enums.Vulnerability.Severity.Medium,"Medium")}
         {this.kindSeverityBox(cdx.Enums.Vulnerability.Severity.Low,"Low")}
         {this.kindSeverityBox(cdx.Enums.Vulnerability.Severity.Info,"Info")}
+        {this.kindSeverityBox(cdx.Enums.Vulnerability.Severity.None,"None")}
         {this.kindSeverityBox(cdx.Enums.Vulnerability.Severity.Unknown,"Unknown")}
         </div>
         <div className="vuln-component-count-summary">
@@ -101,6 +89,7 @@ export class VulnerabilitiesSummaryComponent extends Component<PropsType, any, a
         {this.compSeverityBox(cdx.Enums.Vulnerability.Severity.Medium,"Medium")}
         {this.compSeverityBox(cdx.Enums.Vulnerability.Severity.Low,"Low")}
         {this.compSeverityBox(cdx.Enums.Vulnerability.Severity.Info,"Info")}
+        {this.compSeverityBox(cdx.Enums.Vulnerability.Severity.None,"None")}
         {this.compSeverityBox(cdx.Enums.Vulnerability.Severity.Unknown,"Unknown")}
         </div>
         </Fragment>

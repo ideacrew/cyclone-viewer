@@ -10,23 +10,9 @@ type PropsType = {
 };
 
 export class VulnerabilitiesListComponent extends Component<PropsType, any, any> {
-
-  formatSeverity(vuln: CycloneModel.Vulnerability) {
-    if (vuln.ratings) {
-      const ratings = vuln.ratings;
-      if (ratings.length > 0) {
-        let sortedRatings = ratings.sort((a, b) => {
-          return CycloneModel.severitySort(a.severity) - CycloneModel.severitySort(b.severity);
-        });
-        return sortedRatings[0].severity;
-      }
-    }
-    return cdx.Enums.Vulnerability.Severity.Unknown;
-  }
-
   sortVulns(vulns: Array<CycloneModel.Vulnerability>) {
     return vulns.sort((a, b) => {
-      return CycloneModel.severitySort(this.formatSeverity(b)) - CycloneModel.severitySort(this.formatSeverity(a));
+      return CycloneModel.severitySort(CycloneModel.formatSeverity(b)) - CycloneModel.severitySort(CycloneModel.formatSeverity(a));
     });
   }
 
@@ -40,7 +26,7 @@ export class VulnerabilitiesListComponent extends Component<PropsType, any, any>
       if (vulns.length > 0) {
         const sortedVulns = this.sortVulns(vulns);
         return sortedVulns.map(v => {
-          return <VulnerabilityComponent vulnerability={v} dataLoader={this.props.dataLoader} key={v["bom-ref"] + "vuln-row"}></VulnerabilityComponent>
+          return <VulnerabilityComponent vulnerability={v} dataLoader={this.props.dataLoader} key={v["bom-ref"] + v["id"] + "vuln-row"}></VulnerabilityComponent>
         });
       }
     }
