@@ -2,23 +2,32 @@ import { Component, ReactNode, Fragment } from "react";
 import { CycloneDataLoader } from "../data/cyclone_data_loader";
 import { VulnerabilityComponent } from "./Vulnerability.component"
 import * as CycloneModel from "../cyclonedx/models";
-import * as cdx from "@cyclonedx/cyclonedx-library";
 import { VulnerabilitiesSummaryComponent } from "./VulnerabilitiesSummary.component";
+import { VulnerabilitySearchComponent } from "./VulnerabilitySearch.component";
 
 type PropsType = {
   dataLoader: CycloneDataLoader;
 };
 
-export class VulnerabilitiesListComponent extends Component<PropsType, any, any> {
+type StateType = {
+  searchString: string;
+  searchValue: string;
+}
+
+export class VulnerabilitiesListComponent extends Component<PropsType, StateType, any> {
+  public constructor(props: PropsType) {
+    super(props);
+    this.state = {
+      searchString: "",
+      searchValue: ""
+    };
+  }
+
   sortVulns(vulns: Array<CycloneModel.Vulnerability>) {
     return vulns.sort((a, b) => {
       return CycloneModel.severitySort(CycloneModel.formatSeverity(b)) - CycloneModel.severitySort(CycloneModel.formatSeverity(a));
     });
   }
-
-  shouldComponentUpdate(_nextProps : PropsType, _nextState : any) {
-    return false;
-  };
 
   renderVulnerabilities() : ReactNode | string {
     const vulns = this.props.dataLoader.bom?.vulnerabilities;
@@ -26,17 +35,36 @@ export class VulnerabilitiesListComponent extends Component<PropsType, any, any>
       if (vulns.length > 0) {
         const sortedVulns = this.sortVulns(vulns);
         return sortedVulns.map(v => {
-          return <VulnerabilityComponent vulnerability={v} dataLoader={this.props.dataLoader} key={v["bom-ref"] + v["id"] + "vuln-row"}></VulnerabilityComponent>
+          return <VulnerabilityComponent vulnerability={v} dataLoader={this.props.dataLoader} key={v["bom-ref"] + v["id"] + "vuln-row"} searchValue={this.state.searchValue}></VulnerabilityComponent>
         });
       }
     }
     return "";
   }
 
+  public updateSearchString(v: string) : void {
+    this.setState((s) => {
+      if (v.length < 2) {
+        return {
+          ...s,
+          searchString: v,
+          searchValue: ""
+        };
+      } else {
+        return {
+          ...s,
+          searchString: v,
+          searchValue: v
+        };
+      }
+    });
+  }
+
   public render(): ReactNode {
     return (
         <Fragment>
         <VulnerabilitiesSummaryComponent dataLoader={this.props.dataLoader}/>
+        <VulnerabilitySearchComponent searchParent={this} searchString={this.state.searchString}/>
         <div>
           <table className="vuln-list-table">
             <thead>
