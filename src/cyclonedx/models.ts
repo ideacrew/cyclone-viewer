@@ -28,7 +28,7 @@ export type Hash = {
 };
 
 export type Rating = {
-  score: number;
+  score?: number;
   severity: cdx.Enums.Vulnerability.Severity;
   method?: string;
   vector?: string;
@@ -76,7 +76,7 @@ export type SbomProperty = {
 
 export type Vulnerability = {
   id: string;
-  "bom-ref": string;
+  "bom-ref"?: string;
   description: string;
   detail?: string;
   ratings?: Array<Rating>;
@@ -102,7 +102,7 @@ export type Component = {
   cpe?: string;
   "bom-ref": string;
   description?: string;
-  externalReferences: Array<ExternalRef>;
+  externalReferences?: Array<ExternalRef>;
 }
 
 export type Metadata = {
