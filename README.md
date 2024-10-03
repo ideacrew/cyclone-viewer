@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+**Note**: This project has been largely surpassed by [Sectory](https://github.com/ideacrew/sectory), which offers far more capabilities.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
